@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NumberValidators } from '../shared/number-validation';
 import { IProduct } from './product';
 // import { HttpProductService } from '../services/http.product.service';
-import { HttpProductService } from './http.product.service';
+// import { HttpProductService } from './http.product.service';
+import { HttpProductService } from '../services/http.product.service';
 
 @Component ({
     templateUrl: './product-edit.component.html'
@@ -30,7 +31,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
                                Validators.max(50)]],
              productCode: ['', Validators.required],
              starRating: ['', NumberValidators.range(1, 5)],
-             tags: this.fb.array([]),
+             // tags: this.fb.array([]),
              description: ''
         });
 
@@ -52,6 +53,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     }
 
     getProduct(id: number): void {
+        console.log("in edit component getproduct");
         this.productService.getProduct(id)
             .subscribe(
                 (product: IProduct) => this.onProductRetrieved(product),
@@ -80,5 +82,41 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         });
 
         // this.productForm.setControl('tags', this.fb.array(this.product.tags || []));
+    }
+
+    saveProduct(): void {
+        console.log("in edit component saveProduct");
+        if (this.productForm.dirty && this.productForm.valid) {
+            let p=Object.assign({}, this.product, this.productForm.value);
+
+            this.productService.saveProduct(p)
+                                .subscribe(
+                                    ()=>this.onSaveComplete(),
+                                    (error: any) => this.errorMessage = <any>error
+                                );
+
+        }
+        else if (!this.productForm.dirty) {
+                this.onSaveComplete();
+        }
+    }
+
+    onSaveComplete(): void {
+        this.productForm.reset;
+        this.router.navigate(['/products']);
+    }
+
+    deleteProduct(): void {
+        if (this.product.id == 0) {
+            this.onSaveComplete();
+        }
+
+        if (!confirm(`really delete ${this.product.productName}?`)) return;
+        
+        this.productService.deleteProduct(this.product.id)
+            .subscribe(
+                ()=>this.onSaveComplete(),
+                (error: any) => this.errorMessage = <any>error
+            );
     }
 }
