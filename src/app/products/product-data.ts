@@ -4,7 +4,7 @@ import { IProduct } from './product';
 export class ProductData implements InMemoryDbService {
     createDb() {
         const products: IProduct[] = [
-            {
+/*            {
                 'id': 1,
                 'productName': 'Leaf Rake1',
                 'productCode': 'GDN-0011',
@@ -59,6 +59,7 @@ export class ProductData implements InMemoryDbService {
                 'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png',
                 'tags': this.newFunction()
             }
+*/            
         ];
 
         return products;

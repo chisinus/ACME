@@ -79,6 +79,6 @@ export class ProductEditComponent implements OnInit, OnDestroy {
             description: this.product.description
         });
 
-        this.productForm.setControl('tags', this.fb.array(this.product.tags || []));
+        // this.productForm.setControl('tags', this.fb.array(this.product.tags || []));
     }
 }

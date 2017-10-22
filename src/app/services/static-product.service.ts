@@ -6,6 +6,7 @@ import { IProduct } from '../products/product';
 export class StaticProductService {
     getProducts(): IProduct[] {
         return [
+/*            
             {
                 'id': 1,
                 'productName': 'Leaf Rake',
@@ -61,6 +62,7 @@ export class StaticProductService {
                 'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png',
                 "tags": ["rake", "leaf", "yard", "home"]
             }
+*/            
         ];
     }
 }
