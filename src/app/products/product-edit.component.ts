@@ -53,7 +53,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     }
 
     getProduct(id: number): void {
-        console.log("in edit component getproduct");
+        console.log('in edit component getproduct');
         this.productService.getProduct(id)
             .subscribe(
                 (product: IProduct) => this.onProductRetrieved(product),
@@ -63,14 +63,13 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     onProductRetrieved(product: IProduct): void {
         if (this.productForm) {
             this.productForm.reset();
-        };
+        }
 
         this.product = product;
 
-        if (this.product.id === 0){
+        if (this.product.id === 0) {
             this.pageTitle = 'Add Product';
-        }
-        else {
+        } else {
             this.pageTitle = `Edit Product: ${this.product.productName}`;
         }
 
@@ -85,37 +84,38 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     }
 
     saveProduct(): void {
-        console.log("in edit component saveProduct");
+        console.log('in edit component saveProduct');
         if (this.productForm.dirty && this.productForm.valid) {
-            let p=Object.assign({}, this.product, this.productForm.value);
+            const p = Object.assign({}, this.product, this.productForm.value);
 
             this.productService.saveProduct(p)
                                 .subscribe(
-                                    ()=>this.onSaveComplete(),
+                                    () => this.onSaveComplete(),
                                     (error: any) => this.errorMessage = <any>error
                                 );
 
-        }
-        else if (!this.productForm.dirty) {
+        } else if (!this.productForm.dirty) {
                 this.onSaveComplete();
         }
     }
 
     onSaveComplete(): void {
-        this.productForm.reset;
+        this.productForm.reset();
         this.router.navigate(['/products']);
     }
 
     deleteProduct(): void {
-        if (this.product.id == 0) {
+        if (this.product.id === 0) {
             this.onSaveComplete();
         }
 
-        if (!confirm(`really delete ${this.product.productName}?`)) return;
-        
+        if (!confirm(`really delete ${this.product.productName}?`)) {
+            return;
+        }
+
         this.productService.deleteProduct(this.product.id)
             .subscribe(
-                ()=>this.onSaveComplete(),
+                () => this.onSaveComplete(),
                 (error: any) => this.errorMessage = <any>error
             );
     }

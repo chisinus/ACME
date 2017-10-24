@@ -46,20 +46,20 @@ export class HttpProductService {
     }
 
     deleteProduct(id: number): Observable<Response> {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({ headers: headers});
-        
+        const headers = new Headers({'Content-Type': 'application/json'});
+        const options = new RequestOptions({ headers: headers});
+
         const url = `${this.baseUrl}/${id}`;
 
         return this.http.delete(url, options);
     }
 
     saveProduct(product: IProduct): Observable<IProduct> {
-        console.log("in service saveProduct " + product.productName);
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({ headers: headers});
+        console.log('in service saveProduct ' + product.productName);
+        const headers = new Headers({'Content-Type': 'application/json'});
+        const options = new RequestOptions({ headers: headers});
 
-        if (product.id === 0){
+        if (product.id === 0) {
             return this.createProduct(product, options);
         }
 
@@ -67,12 +67,12 @@ export class HttpProductService {
     }
 
     createProduct(product: IProduct, options: RequestOptions): Observable<IProduct> {
-        console.log("in create " + product.productName);
+        console.log('in create ' + product.productName);
         console.log(JSON.stringify(product));
         product.id = undefined;
         return this.http.post(this.baseUrl, product, options)
-                    .map(response=>response.json())
-                    .do(data=>console.log('create product: ' + JSON.stringify(data)))
+                    .map(response => response.json())
+                    .do(data => console.log('create product: ' + JSON.stringify(data)))
                     .catch(this.errorHandler);
     }
 
@@ -80,12 +80,10 @@ export class HttpProductService {
         const url = `${this.baseUrl}/${product.id}`;
         console.log(JSON.stringify(product));
         return this.http.put(url, product, options)
-                    .map(()=>product)
-                    .do(data=>console.log('update product: ' + JSON.stringify(data)))
+                    .map(() => product)
+                    .do(data => console.log('update product: ' + JSON.stringify(data)))
                     .catch(this.errorHandler);
     }
-
-    
 
     extractData(response: Response) {
         const body = response.json();
